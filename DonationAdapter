@@ -1,0 +1,29 @@
+import android.database.Cursor
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class DonationAdapter(private val cursor: Cursor) : RecyclerView.Adapter<DonationAdapter.DonationViewHolder>() {
+
+    class DonationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvItem: TextView = itemView.findViewById(R.id.tvItem)
+        val tvQuantity: TextView = itemView.findViewById(R.id.tvQuantity)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DonationViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_donation, parent, false)
+        return DonationViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: DonationViewHolder, position: Int) {
+        cursor.moveToPosition(position)
+        holder.tvItem.text = cursor.getString(cursor.getColumnIndexOrThrow("item"))
+        holder.tvQuantity.text = cursor.getInt(cursor.getColumnIndexOrThrow("quantity")).toString()
+    }
+
+    override fun getItemCount(): Int {
+        return cursor.count
+    }
+}
